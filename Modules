@@ -1,0 +1,103 @@
+📦 Module 1: Resume Analyzer
+Objective:
+Allow users to upload resumes, extract text, and identify relevant skills for use in job-matching and GPT-based suggestions.
+
+Key Features:
+Upload resume (PDF or DOCX)
+Extract raw text using pdfplumber or python-docx
+
+Extract key skills using:
+A pre-defined skill keyword list
+(Optional) NLP-based approach using spaCy
+Store extracted skills into SQLite database
+Display extracted skills in the UI
+
+Inputs: Resume (PDF/DOCX)
+Outputs: Parsed resume text, list of identified skills
+
+📦 Module 2: Job Description (JD) Crawler
+Objective:
+Match users to suitable job listings based on the extracted resume skills.
+
+Key Features:
+Use static job listing dataset (CSV or JSON) for MVP
+Fields include Job Title, Company, Required Skills, Location, Experience
+Filter and search functionality based on:
+Skills extracted from resume
+User’s preference (e.g., location, role type)
+Display matched jobs with basic detail
+
+Inputs: Extracted skills
+Outputs: Filtered list of matching job descriptions
+
+📦 Module 3: GPT-Based Resume Suggestions
+Objective:
+Enhance user resumes with AI-driven bullet point improvements, missing skills, and customized suggestions.
+
+Key Features:
+Use LangChain + OpenAI API (GPT-3.5/4)
+Prompt GPT with extracted resume data and selected job description
+
+Suggest:
+Rewritten bullet points for clarity and impact
+Role-specific summary/objective lines
+Missing skills to add for better alignment
+Present suggestions in a clean, copyable format in UI
+
+Inputs: Resume content + selected job description
+Outputs: AI-suggested edits and additions for the resume
+
+📦 Module 4: Application Tracker
+Objective:
+Track the progress of job applications across different statuses.
+
+Key Features:
+Add job application records manually or from search results
+Track by status: “Saved”, “Applied”, “Interviewing”, “Offer”, “Rejected”
+Store tracker data in SQLite
+Display status dashboard (e.g., table view)
+
+Inputs: Job title, company, application status, optional notes
+Outputs: Visual tracker of job application progress
+
+📦 Module 5: Backend and Database Management
+Objective:
+Create a robust backend to handle data flow between resume parsing, job search, suggestions, and application tracking.
+
+Key Features:
+Centralized SQLite database with:
+skills table
+jobs table
+applications table
+
+Helper scripts to:
+Insert/fetch/update resume data
+Filter jobs based on extracted skills
+Save and update application status
+Modular Python structure for easy maintainability
+
+Inputs: Resume text, job filters, GPT responses
+Outputs: Skill records, job matches, application status records
+
+📦 Module 6: Streamlit UI Frontend
+Objective:
+Provide an intuitive, interactive interface for users to engage with each module.
+
+UI Pages:
+Home: Welcome + usage instructions
+Resume Analyzer: Upload and review extracted skills
+Find Jobs: Job search and match display
+AI Suggestions: GPT-powered resume enhancement
+Application Tracker: Track application status
+
+Features:
+Sidebar or tabbed layout for easy navigation
+Realtime feedback and success messages
+Minimalistic, user-friendly layout
+
+Optional Future Enhancements (Post-MVP)
+Live Job Scraping: Scrape from LinkedIn/Naukri using BeautifulSoup or APIs (if available)
+User Authentication: Secure login/signup
+Download Resume: After AI editing, export to PDF/DOCX
+Email Alerts: Job match alerts or status reminders
+Analytics Dashboard: Visualize skill gaps, interview ratio, etc.
