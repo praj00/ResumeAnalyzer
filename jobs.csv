@@ -1,0 +1,4 @@
+job_id,role,company,location,required_skills
+1,Data Engineer,ABC Corp,Bangalore,"Python, SQL, ETL, Airflow"
+2,ML Engineer,XYZ Inc,Mumbai,"Python, TensorFlow, Machine Learning"
+3,Data Analyst,123 Ltd,Remote,"Excel, SQL, Power BI"

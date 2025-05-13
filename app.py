@@ -1,57 +1,38 @@
 import streamlit as st
-import pdfplumber
-import spacy
-from db import SessionLocal
-from models import Resume
 
-st.title("Resume Analyzer - Upload your Resume")
-uploaded_file=st.file_uploader("Upload your resume (PDF only)", type=["pdf"])
+# Page config 
+st.set_page_config(page_title="Smart Job Assistant", layout="wide")
 
-if uploaded_file:
-    with pdfplumber.open(uploaded_file) as pdf:
-        text = ""
-        for page in pdf.pages:
-            text += page.extract_text()
+# Sidebar navigation
+st.sidebar.title("🧠 Smart Job Seeker Assistant")
+page = st.sidebar.radio(
+    "Navigate to:",
+    ("🏠 Home", "📝 Resume Analyzer", "🔍 Job Matcher", "✨ GPT Suggestions", "📊 Application Tracker")
+)
 
-    st.subheader("Extracted Text:")
-    st.write(text)
+# Page logic
+if page == "🏠 Home":
+    st.title("Welcome to Smart Job Seeker Assistant 🚀")
+    st.markdown("""
+    This tool helps you:
+    - Analyze your resume and extract skills  
+    - Match jobs from a dataset  
+    - Get AI suggestions to improve your resume  
+    - Track your job applications easily  
+    """)
 
+elif page == "📝 Resume Analyzer":
+    from resume_analyzer import show_resume_analyzer
+    show_resume_analyzer()
 
-nlp = spacy.load("en_core_web_sm")
+elif page == "🔍 Job Matcher":
+    from job_matcher import show_job_matcher
+    show_job_matcher()
 
-# Define a simple static skill list for now
-skill_keywords = ["Python", "SQL", "Machine Learning", "Data Analysis", "AWS", "Azure", "ETL", "Data Engineering", "NLP"]
-skills = []
+elif page == "✨ GPT Suggestions":
+    from gpt_suggestions import show_gpt_suggestions
+    show_gpt_suggestions()
 
-def extract_skills(text):
-    skills_found = []
-    doc = nlp(text)
-    for token in doc:
-        if token.text in skill_keywords:
-            skills_found.append(token.text)
-    return list(set(skills_found))
-
-if uploaded_file:
-    skills = extract_skills(text)
-    st.subheader("Skills Found:")
-    st.write(skills)
-
-
-
-# Input section
-name = st.text_input("Name")
-email = st.text_input("Email")
-skills_text = ", ".join(skills) if skills else ""
-skills_input = st.text_area("Skills (auto-filled)", value=skills_text)
-
-# DB insert
-def add_resume(name, email, skills):
-    session = SessionLocal()
-    new_resume = Resume(name=name, email=email, skills=skills)
-    session.add(new_resume)
-    session.commit()
-    session.close()
-
-if st.button("Save Resume"):
-    add_resume(name, email, skills_input)
-    st.success("Resume saved!")
+elif page == "📊 Application Tracker":
+    from tracker import show_tracker
+    show_tracker()
